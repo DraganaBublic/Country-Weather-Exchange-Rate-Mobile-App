@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      G00411270
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="onSearchChange($event)"></ion-searchbar>
+    
+    <ion-list>
+      <ion-item *ngFor="let country of filteredCountryData">
+        <ion-button fill="clear" (click)="openCountryDetails(country)">{{ country.name.official }}</ion-button>
+      </ion-item>
+    </ion-list>
+</ion-content>

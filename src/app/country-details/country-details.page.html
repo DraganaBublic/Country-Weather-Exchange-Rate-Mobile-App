@@ -1,0 +1,71 @@
+<!-- Header section -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>CountryDetails</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Content section -->
+<ion-content [fullscreen]="true">
+
+  <!-- List container, displayed only if countryDetails is available -->
+  <ion-list *ngIf="countryDetails">
+  
+    <!-- Country flag section, displayed only if countryDetails.flags is available -->
+    <div class="attribute-container" *ngIf="countryDetails.flags">
+      <ion-item>
+        <ion-img [src]="countryDetails.flags?.png"></ion-img>
+      </ion-item>
+    </div>
+
+    <!-- Country name section -->
+    <div class="attribute-container">
+      <ion-card-title>{{ countryDetails.name?.official }}</ion-card-title>
+    </div>
+
+    <!-- Country capital section -->
+    <div class="attribute-container">
+      <ion-card-subtitle>{{ countryDetails.capital }}</ion-card-subtitle>
+    </div>
+
+    <!-- Weather description section, displayed only if countryDetails.weatherDescription is available -->
+    <div class="attribute-container" *ngIf="countryDetails.weatherDescription">
+      <ion-card-subtitle>{{ countryDetails.weatherDescription }}</ion-card-subtitle>
+    </div>
+
+    <!-- Population section -->
+    <div class="attribute-container">
+      <ion-card-subtitle>{{ countryDetails.population | number:'1.0-2' }}</ion-card-subtitle>
+    </div>
+
+    <!-- Languages section, displayed only if countryDetails.languages is available -->
+    <div class="attribute-container" *ngIf="countryDetails.languages" class="ion-padding">
+      <ion-card-title>Languages</ion-card-title>
+      <ion-card-title *ngFor="let language of getLanguages(countryDetails.languages)" class="ion-padding language-item">
+        {{ language }}
+        <div class="language-separator"></div>
+      </ion-card-title>
+    </div>
+
+    <!-- Currencies section, displayed only if countryDetails.currencies is available -->
+    <div class="attribute-container" *ngIf="countryDetails.currencies">
+      <ion-card-subtitle *ngFor="let currency of getCurrencies(countryDetails.currencies)">
+        {{ 'Enter ' + currency + ' amount' }}
+        <ion-input type="number" [(ngModel)]="amount" name="amount" (ngModelChange)="onAmountChange($event)"></ion-input>
+      </ion-card-subtitle>
+    </div>
+
+    <!-- Button to trigger currency conversion, disabled when isButtonDisabled is true -->
+    <ion-button [disabled]="isButtonDisabled" (click)="convertCurrencyWithConverter()">
+      CONVERT TO EUR
+    </ion-button>
+    
+    <!-- Display the converted amount section, displayed only if convertedAmount is available -->
+    <div *ngIf="convertedAmount !== undefined">
+      <ion-card-subtitle>
+        {{ amount }} {{ baseCurrency }} = {{ convertedAmount | number: '1.4-4' }} EUR
+      </ion-card-subtitle>
+    </div>
+    
+  </ion-list>
+</ion-content>
